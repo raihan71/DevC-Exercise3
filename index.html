@@ -2,10 +2,71 @@
 <html lang="en">
 <head>
     <title>Exercise 3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
     <center>
         <h1>Daftar Planet</h1>
     </center>
+    <table id="tableSwapi" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rotation Period</th>
+                    <th>Orbital Period</th>
+                    <th>Diameter</th>
+                    <th>Climate</th>
+                    <th>Gravity</th>
+                    <th>Terrain</th>
+                    <th>Water Surface</th>
+                    <th>Population</th>
+                </tr>
+            </thead>
+            <tbody id="list-list"></tbody>
+        </table>    
+        <script
+      src="http://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        
+        <script>
+            $(document).ready(function () {
+                $("#tableSwapi").dataTable();
+    
+                $.ajax({
+                    url: 'https://swapi.co/api/planets/?page=2',
+                    type: 'get',
+                    dataType: 'json',
+                    "bProcessing": true,
+                    "bServerSide": true,
+                    "sAjaxSource": URL,
+                    success: function (result) {
+                        let daftar = result.results;
+                        var html = '';
+                        $.each(daftar, function (i, data) {
+                            html += `<tr>
+                                            <td> ` + data.name + `</td>
+                                            <td>` + data.rotation_period + `</td>
+                                            <td>` + data.orbital_period + `</td>
+                                            <td>` + data.diameter + `</td>
+                                            <td> ` + data.climate + ` </td>
+                                            <td> ` + data.gravity + ` </td>
+                                            <td>` + data.terrain + `</td>
+                                            <td> ` + data.surface_water + `</td>
+                                            <td> ` + data.population + ` <br></td>
+                                        </tr>`;
+    
+                            //This is selector of my <tbody> in my table
+                            $("#list-list").html(html);
+                        });
+                    }
+                });
+            })
+    
+    
+        </script>
 </body>
 </html>
